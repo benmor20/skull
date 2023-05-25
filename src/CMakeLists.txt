@@ -1,7 +1,9 @@
 
 add_library(utils utils.h utils.c)
 add_library(constants constants.h constants.c)
+
 add_library(client_funcs client_funcs.h client_funcs.c)
+link_libraries(client_funcs utils)
 
 add_executable(server server.c)
 
