@@ -36,6 +36,7 @@ int accept_client(Server* server) {
     struct sockaddr_storage* client_addr = malloc(client_addr_len);
     int clientfd = accept(server->listener, (struct sockaddr*)client_addr,
                            &client_addr_len);
+    free(client_addr);
     if (clientfd == -1) {
         error_and_exit("Unable to accept client");
     }
