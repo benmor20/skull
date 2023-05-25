@@ -17,8 +17,8 @@ int open_tcp_socket(void) {
     return sock;
 }
 
-void close_tcp_socket(int socket_) {
-    if (close(socket_) == -1) {
+void close_tcp_socket(int socket_descriptor) {
+    if (close(socket_descriptor) == -1) {
         error_and_exit("Unable to close socket");
     }
 }
