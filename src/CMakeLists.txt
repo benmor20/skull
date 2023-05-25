@@ -12,4 +12,4 @@ add_executable(server server.c)
 target_link_libraries(server server_funcs)
 
 add_executable(client client.c)
-target_link_libraries(client client_funcs)
+target_link_libraries(client client_funcs utils constants)
