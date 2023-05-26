@@ -8,11 +8,3 @@ void try_connect(int client_socket, struct sockaddr_in server_addr) {
         error_and_exit("Unable to connect to server.");
     }
 }
-
-FILE* get_socket_file(int client_socket) {
-    FILE* socket_file = fdopen(client_socket, "w+");
-    if (socket_file == NULL) {
-        error_and_exit("Unable to open socket descriptor as a file.");
-    }
-    return socket_file;
-}

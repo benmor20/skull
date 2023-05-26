@@ -1,27 +1,23 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "server_funcs.h"
+#include "communication.h"
 #include "constants.h"
 #include "utils.h"
 
 void hello_world_server(int client_socket) {
-    FILE* client_file = fdopen(client_socket, "r+");
-    if (client_file == NULL) {
-        error_and_exit("Error opening client_file file");
-    }
+    FILE* client_file = get_socket_file(client_socket);
     char* line = NULL;
-    size_t len = 0;
     while (1) {
-        if (fprintf(client_file, "Hello, ") <= 0) {
-            error_and_exit("Error writing to client_file");
-        }
+        send_message(client_file, "Hello,\n");
         puts("Sent text");
-        if (getline(&line, &len, client_file) == -1) {
-            error_and_exit("Error reading line");
-        }
-        printf("Received %s\n", line);
-        if (strcmp(line, "World!") == 0) {
+        line = read_message(client_file, NULL);
+        printf("Received %s", line);
+        if (strcmp(line, "World!\n") == 0) {
+            puts("Accepted!");
+            free(line);
             return;
         }
         puts("Line unaccepted, continuing");

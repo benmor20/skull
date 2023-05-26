@@ -4,31 +4,17 @@
 
 #include "utils.h"
 #include "client_funcs.h"
+#include "communication.h"
 #include "constants.h"
 
 int hello_world_client(FILE* socket_file) {
-    char* recv_line = NULL;
-    size_t recv_line_size = 0;
-    puts("Waiting for server...");
-    if (getline(&recv_line, &recv_line_size, socket_file) == -1) {
-        return -1;
-    }
-    puts("Received line");
+    char* recv_line = read_message(socket_file, NULL);
     printf("%s", recv_line);
     free(recv_line);
 
-    char* send_line = NULL;
-    size_t send_line_size = 0;
-    if (getline(&send_line, &send_line_size, stdin) == -1) {
-        return -1;
-    }
+    char* send_line = read_message(stdin, NULL);
     puts("Got input");
-    // If we can't send the line on the socket, the connection is broken and we
-    // have to exit.
-    if (fputs(send_line, socket_file) == EOF) {
-        free(send_line);
-        error_and_exit("Couldn't send line");
-    }
+    send_message(socket_file, send_line);
     puts("Sent input");
     free(send_line);
     return 0;
